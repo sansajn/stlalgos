@@ -86,17 +86,29 @@ string trim_left(string s)
 
 `partition` 
 
-a jeho varianta `stable_partition` preusporiadaju kolekciu tak, že prvky vyhovujúce predikátu (podmienke) a presunú na začiatok kolekcie. Verzia algoritmu `stable_partition` zachováva poradie presunutích prvkou.
-
+a jeho varianta `stable_partition` preusporiadaju kolekciu tak, že prvky vyhovujúce predikátu (podmienke) presunú na začiatok kolekcie. Verzia algoritmu `stable_partition` zachováva poradie presunutích prvkou.
 
 ```c++
-// move females at the top of the people list
-partition(people.begin(), people.end(), is_female);
+vector xs = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+partition(begin(xs), end(xs), bind(greater<int>{}, _1, 6));
+copy(begin(xs), end(xs), ostream_iterator<int>(cout, ", "));  // 9, 8, 7, 4, 5, 6, 3, 2, 1,
+```
+
+```c++
+vector xs = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+stable_partition(begin(xs), end(xs), bind(greater<int>{}, _1, 6));
+copy(begin(xs), end(xs), ostream_iterator<int>(cout, ", "));  // 7, 8, 9, 1, 2, 3, 4, 5, 6,
 ```
 
 ukážka s použitím boost::phoenix
 
 ```c++
+using namespace boost::phoenix::arg_names;
+
+vector nums{21, 5, 62, 42, 53};
+partition(begin(nums), end(nums), arg1 <= 42);
+// numbers now contain [21, 5, 42,   62, 53]
+//                        <= 42       > 42
 ```
 
 
@@ -124,4 +136,4 @@ int product = accumutalte(numbers.begin(), numbers.end(), multiplies<>{});
 
 
 
-
+-- Adam Hlavatovic
